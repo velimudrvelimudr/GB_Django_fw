@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h1>{{ title }}</h1>
+<nav class="mainmenu"><ul>
+    <li><a href="{% url 'admin:new_user' %}">Создать пользователя</a></li>
+</ul></nav>
+
+<ul>
+    {% for u in users %}
+    <li><a href="{% url 'admin:user_info' u.id %}">{{ u.username }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

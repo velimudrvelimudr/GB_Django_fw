@@ -1,0 +1,24 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h1>{{ title }}</h1>
+
+<ul>
+    <li><a href="{% url 'admin:add_book' %}">Добавить книгу в библиотеку</a></li>
+</ul>
+<ul>
+    {% for cat in cat_menu %}
+    <li><a href="{% url 'admin:books' cat.pk %}">{{ cat.name }}</a></li>
+    {% endfor %}
+</ul>
+<ul>
+    {% for book in object_list %}
+    <li>{% if book.author %}{{ book.author }} {% endif %}
+    <a href="{% url 'admin:book_info' book.pk %}">{{ book.name }}</a> 
+    {{ book.cat_fk.name }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

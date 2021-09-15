@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{ title }} {{ user.username }} - {{ block.super }}
+{% endblock %}
+
+{% block main %}
+<h1>{{ title }} {{ user.username }}</h1>
+
+<form action="
+{% if id_view == 'registr' %}
+{% url 'auth:register' %}
+{% endif %}
+{% if id_view == 'edit' %}
+{% url 'auth:edit' %}
+{% endif %}
+" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" 
+    {% if id_view == 'edit' %}
+        value="Сохранить"
+        {% endif %}
+        {% if id_view == 'registr' %}
+        value="Зарегистрироваться"
+        {% endif %}
+        >
+</form>
+{% endblock %}

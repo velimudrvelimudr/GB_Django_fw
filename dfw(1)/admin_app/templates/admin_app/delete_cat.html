@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} {{ cat_to_delete.name }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h1>{{ title }} {{ cat_to_delete.name }}</h1>
+
+<form action="{% url 'admin:cat_delete' cat_to_delete.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+</form>
+
+<button type="button">
+    <a href="{% url 'admin:cat_info' cat_to_delete.pk %}">Отмена</a>
+</button>
+{% endblock %}

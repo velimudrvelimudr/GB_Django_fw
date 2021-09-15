@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} {{ object.name }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h1>{{ title }} {{ object.name }}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+</form>
+
+<button type="button">
+    <a href="{% url 'admin:book_info' object.pk %}">Отмена</a>
+</button>
+{% endblock %}

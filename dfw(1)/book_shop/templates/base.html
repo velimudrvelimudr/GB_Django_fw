@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% block title %}
+    Электронная библиотека
+    {% endblock %}
+    </title>
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% endblock %}
+</head>
+<body>
+    {% block header %}
+    <header>
+        {% now "l d M Y" %}
+        <hr>
+        <nav class="mainmenu">
+            {% include 'inc_menu.html' %}
+        </nav>
+    </header>
+    {% endblock %}
+    <main>
+    {% block main %}
+    {% endblock %}
+    </main>
+    {% block footer %}
+    <footer>
+        <div>&copy; Михаил Духонин, 2021</div>
+    </footer>
+    {% endblock %}
+</body>
+</html>

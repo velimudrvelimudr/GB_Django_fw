@@ -1,0 +1,14 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h1>{{ title }} &laquo;{{ cat.name }}&raquo;</h1>
+<div>
+    <p><strong>Наименование: </strong>{{ cat.name }}</p>
+    <p><strong>Описание: </strong>{{ cat.description|default:'Отсутствует' }}</p>
+</div>
+<div><a href="{% url 'admin:cat_change' cat.pk %}">Изменить</a></div>
+<div><a href="{% url 'admin:cat_delete' cat.pk %}">Удалить</a></div>
+{% endblock %}

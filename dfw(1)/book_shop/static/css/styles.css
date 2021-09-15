@@ -1,0 +1,12 @@
+.mainmenu {
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.mainmenu ul {
+    list-style-type: none;
+}
+
+.mainmenu ul li {
+    display: inline;
+}

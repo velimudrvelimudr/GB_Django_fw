@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ title }} {{ user.first_name|default:user.username }} | {{ block.super }}
+{% endblock %}
+
+{% block main %}
+<h1>{{ title }} {{ user.first_name|default:user.username }}</h1>
+<div>
+    <ul>
+        {% for book in user_books %}
+            <li>
+                {% if book.book.author %}
+                {{ book.book.author }} 
+                {% endif %}
+                <a href="{% url 'book' book_id=book.book.id %}">
+                {{ book.book.name }}
+                </a>
+                <a href="{% url 'libr:rm_book' pk=book.id %}">Удалить из библиотеки</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

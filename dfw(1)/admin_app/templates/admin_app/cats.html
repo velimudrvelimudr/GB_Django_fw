@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h1>{{ title }}</h1>
+<div>><ul><li>
+    <a href="{% url 'admin:add_cat' %}">Добавитькатегорию</a>
+</li></ul></div>
+
+<ul>
+    {% for cat in cats %}
+    <li><a href="{% url 'admin:cat_info' cat.pk %}">{{ cat.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Информация о книге {{ bookinfo.name }}
+{% endblock %}
+
+{% block main %}
+<h1>{{ bookinfo.name }}</h1>
+{% if bookinfo.author %}
+<strong>{{ bookinfo.author }}</strong>
+{% endif %}
+{% if bookinfo.annotation %}
+<h2>Аннотация:</h2>
+<p><pre>{{ bookinfo.annotation }}</pre></p>
+{% endif %}
+{% if request.user.is_authenticated %}
+<P><a href="{% url url_data.0 url_data.1 %}">{{ url_data.2 }}</a></P>
+{% endif %}
+<p>Книгу добавили в библиотеку {{ book_count }} читателей.</p>
+<!-- <div>{{ bi }}</div> -->
+{% endblock %}

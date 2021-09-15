@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Главная | {{ block.super }}
+{% endblock %}
+
+{% block main %}
+<h1>Электронная библиотека</h1>
+<div>Библиотека книг о Python</div>
+
+{% if user.is_authenticated %}
+<div>В библиотеке пользователя {{ user.first_name|default:user.username }} {{ user.user_count }} книг.</div>
+{% endif %}
+
+<div>Категории книг</div>
+<ul>
+    {% for cat in cat_menu %}
+        <li><a href="{% url 'catalog' cat.id %}">{{ cat.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

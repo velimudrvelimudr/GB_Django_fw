@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Каталог 
+    {% if topic %}
+    раздела &quot;{{ topic.name }}&quot;
+    {% endif %}
+    | {{ block.super }}
+{% endblock %}
+
+{% block main %}
+<h1>Каталог библиотеки</h1>
+<div>отображается {{ books|length }} книг.</div>
+<h2>Категории:</h2>
+<ul>
+    {% for cat in cat_menu %}
+<li>
+    <a 
+{% if request.resolver_match.kwargs.pk|add:'0' == cat.id %}current="page" {% endif %}
+href="{% url 'catalog' pk=cat.id %}">{{ cat.name }}</a>
+</li>
+    {% endfor %}
+</ul>
+<div>
+{% if topic %}
+Раздел: {{ topic.name }}.
+{% else %}
+Все книги
+{% endif %}
+</div>
+<div>
+    <ul>
+        {% for book in books %}
+            <li>
+                {% if not topic %}
+                {{ book.cat_fk.name }}
+                {% endif %}
+                {% if book.author %}
+                {{ book.author }} 
+                {% endif %}
+                <a href="{% url 'book' book_id=book.id %}">
+                {{ book.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    {% if topic %}
+    {% if books.has_previous %}
+    <li><a href="{% url 'page' topic.pk books.previous_page_number %}">Предыдущая</a></li>
+    {% endif %}
+    <li>Страница {{ books.number }} из {{ books.paginator.num_pages }}</li>
+    {% if books.has_next %}
+    <li><a href="{% url 'page' pk=topic.pk num_page=books.next_page_number %}">Следующая</a></li>
+    {% endif %}
+    {% else %}
+    {% if books.has_previous %}
+    <li><a href="{% url 'page' books.previous_page_number %}">Предыдущая</a></li>
+    {% endif %}
+    <li>Страница {{ books.number }} из {{ books.paginator.num_pages }}</li>
+    {% if books.has_next %}
+    <li><a href="{% url 'page' num_page=books.next_page_number %}">Следующая</a></li>
+    {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

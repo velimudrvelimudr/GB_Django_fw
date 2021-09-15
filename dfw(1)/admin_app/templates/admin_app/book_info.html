@@ -1,0 +1,18 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h1>{{ title }}</h1>
+<div>
+    {% if book.author %}<p><strong>Автор: </strong>{{ book.author }}</p>{% endif %}
+    <p><strong>Название: </strong>{{ book.name }}</p>
+    <h2>Аннотация</h2>
+    <p>{{ book.annotation|default:'Отсутствует' }}</p>
+    <p>Находится в библиотеке у {{ book.book_count }} пользователей</p>
+</div>
+<div><a href="{% url 'admin:change_book' book.pk %}">Изменить данные книги</a></div>
+<div><a href="{% url 'admin:books' book.cat_fk.pk %}">Вернуться в список книг</a></div>
+<div><a href="{% url 'admin:del_book' book.pk %}">Удалить книгу из библиотеки</a></div>
+{% endblock %}
