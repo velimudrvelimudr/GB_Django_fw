@@ -11,25 +11,15 @@ def main(request):
     """ Отображает главную страницу. 
     На странице выводится меню категорий.  """
 
-    if request.user.is_authenticated:
-        user_count = request.user.user_count
-    else:
-        user_count = None
-
     content = {
         'cat_menu':BookCategory.objects.order_by('name'),
-        'user_count':user_count,
     }
+
     return render(request, 'mainapp/index.html', context=content)
 
 
 def catalog(request, pk=None, num_page=1):
     """ Отображение каталога. Если указан ID категории, то только книг из этой категории. """
-
-    if request.user.is_authenticated:
-        user_count = request.user.user_count
-    else:
-        user_count = None
 
     if pk:
         book_list = Books.objects.all().filter(cat_fk=pk)
@@ -52,7 +42,6 @@ def catalog(request, pk=None, num_page=1):
         'books':books_paginator,
         'topic': topic,
         'cat_menu':cat_menu,
-        'user_count': user_count,
     }
 
     return render(request, 'mainapp/catalog.html', context=content)
@@ -64,7 +53,6 @@ def show_book_info(request, book_id):
     book = Books.objects.get(id=book_id)
 
     if request.user.is_authenticated:
-        user_count = request.user.user_count
         user_book = request.user.perslib.filter(book__id=book_id, user=request.user)
         if len(user_book) == 1:
             url_view = 'libr:rm_book'
@@ -75,7 +63,6 @@ def show_book_info(request, book_id):
             url_id = book_id
             url_text = 'Добавить в библиотеку'
     else:
-        user_count = None
         url_text = None
         url_id = None
         url_view = None
@@ -85,10 +72,8 @@ def show_book_info(request, book_id):
 
     context = {
         'bookinfo':book_info,
-        'user_count': user_count,
         'book_count':book_count,
         'url_data':(url_view, url_id, url_text),
-        # 'bi':Books.objects.get(id=book_id).book_info
     }
     return render(request, 'mainapp/book.html', context=context)
 
@@ -96,16 +81,7 @@ def show_book_info(request, book_id):
 def contacts(request):
     """ Страница контактов.  """
 
-    if request.user.is_authenticated:
-        user_count = request.user.user_count
-    else:
-        user_count = None
-
-    context = {
-        'user_count': user_count,
-    }
-
-    return render(request, 'mainapp/contacts.html', context=context)
+    return render(request, 'mainapp/contacts.html')
 
 def test(request):
     return render(request, 'mainapp/test.html', {'title':'Тестовая страница'})

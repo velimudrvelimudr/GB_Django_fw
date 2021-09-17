@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+{% if user %}
+<h3>Ура! Пользователь {{ user.username }} Активирован.</h3>
+{% else %}
+<h3>Увы, ошибка активации пользователя...</h3>
+{% endif %}
+<hr>
+<a href="{% url 'main' %}">На главную</a>
+
+{% endblock %}

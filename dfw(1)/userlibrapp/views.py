@@ -12,12 +12,10 @@ def perslib(request):
 
     title = 'Библиотека пользователя'
     user_books = request.user.perslib.all().order_by('add_datetime')
-    user_count = request.user.user_count
 
     context = {
         'title':title,
         'user_books':user_books,
-        'user_count': user_count,
     }
 
     return render(request, 'userlibrapp/userlibr.html', context=context)

@@ -4,6 +4,9 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from userlibrapp.models import PersonLib
+from django.core.mail import send_mail
+from django.conf import settings
+from auth_app.models import BookUser
 
 # Create your views here.
 
@@ -24,7 +27,6 @@ def login(request):
     content = {
         'title': title,
         'login_form':login_form,
-        'user_count':None
     }
 
     return render(request, 'auth_app/login.html', context=content)
@@ -40,12 +42,10 @@ def logout(request):
 def profile(request):
     """ Просмотр профиля аутентифицированного пользователя. """
 
-    user_count = request.user.user_count
     title = 'Профиль пользователя'
 
     context = {
         'title':title,
-        'user_count': user_count,
     }
 
     return render(request, 'auth_app/profile_view.html', context=context)
@@ -55,7 +55,6 @@ def profile(request):
 def edit(request):
     """ Редактирование профиля пользователя.  """
 
-    user_count = request.user.user_count
     title = 'Изменить профиль пользователя'
 
     if request.method == 'POST':
@@ -70,7 +69,6 @@ def edit(request):
         'title':title,
         'form': edit_form,
         'id_view':'edit',
-        'user_count': user_count,
     }
 
     return render(request, 'auth_app/profile_editor.html', context=context)
@@ -87,8 +85,13 @@ def register(request):
     if request.method == 'POST':
         reg_form = BookUserRegisterForm(request.POST, request.FILES)
         if reg_form.is_valid():
-            reg_form.save()
-            return HttpResponseRedirect(reverse('auth:login'))
+            user = reg_form.save(commit=True)
+            if send_verify_mail(user=user):
+                print('Сообщение с активационным кодом успешно отправлено')
+                return HttpResponseRedirect(reverse('auth:login'))
+            else:
+                print('Ошибка отправки сообщения')
+                return HttpResponseRedirect(reverse('auth:login'))
     else:
         reg_form = BookUserRegisterForm
 
@@ -101,4 +104,32 @@ def register(request):
 
     return render(request, 'auth_app/profile_editor.html', context)
 
+
+def send_verify_mail(user):
+    """ Отправка пользователю письма с активационным кодом. """
+
+    verify_link = reverse('auth:verify', args=[user.email, user.activation_key])
+    title = f'Подтверждение учётной записи пользователя {user.username}'
+    msg = f'Для подтверждения учётной записи на портале {settings.DOMAIN_NAME} перейдите по ссылке\n{settings.DOMAIN_NAME}{verify_link}'
+
+    return send_mail(title, msg, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+
+
+def verify(request, email, activation_key):
+    """ Верификация пользователя """
+
+    try:
+        user = BookUser.objects.get(email=email)
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.activation_key = None
+            user.activation_key_expired = None
+            auth.login(request, user)
+            return render(request, 'auth_app/verify.html')
+        else:
+            print(f'Ошибка активации пользователя {user.username}')
+            return render(request, 'auth_app/verify.html')
+    except Exception as e:
+        print(f'Ошибка активации пользователя: {e.args}')
+        return HttpResponseRedirect(reverse('main'))
 

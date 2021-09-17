@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from environ import Env
+
+env = Env()
+env.read_env('.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g3)+$=)nqn7t53l&)7l=3qwd3_5cevm6$c%z62t1uf!^db!$v('
+SECRET_KEY = env('SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -69,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'book_shop.context_processors.user_book_count',
             ],
         },
     },
@@ -145,3 +150,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'auth_app.BookUser'
 LOGIN_URL = '/auth/login/'
+
+# Настройки E-Mail
+
+DOMAIN_NAME = 'http://localhost:8000'
+EMAIL_HOST = 'localhost'
+
+# Для отправки в консоль.
+# EMAIL_PORT = 25
+# EMAIL_USE_SSL = False
+
+# Отправка через реальный SMTP
+EMAIL_HOST_URL = env('EMAIL_URL') # smtp.gmail.com
+EMAIL_HOST_USER = env('EMAIL')
+EMAILHOST__PASSWORD = env('EMAIL_PASS')
+EMAIL_PORT = env('EMAIL_PORT') # 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = True
+
+# Для сохранения письма в файл
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/email-messages/'
