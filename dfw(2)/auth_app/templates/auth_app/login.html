@@ -13,4 +13,9 @@
     <br>
     <input type="submit", value="Войти!">
 </form>
+
+<div>
+    <a href="{% url 'auth:register'%}">Зарегистрироваться</a>
+    <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/auth/profile">VK</a>
+</div>
 {% endblock %}

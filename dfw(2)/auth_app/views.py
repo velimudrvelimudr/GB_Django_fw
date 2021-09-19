@@ -124,7 +124,7 @@ def verify(request, email, activation_key):
             user.is_active = True
             user.activation_key = None
             user.activation_key_expired = None
-            auth.login(request, user)
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return render(request, 'auth_app/verify.html')
         else:
             print(f'Ошибка активации пользователя {user.username}')

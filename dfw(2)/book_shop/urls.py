@@ -29,6 +29,7 @@ urlpatterns = [
     path('auth/', include('auth_app.urls', namespace='auth')),
     path('libr/', include('userlibrapp.urls', namespace='libr')),
     path('myadmin/', include('admin_app.urls', namespace='admin')),
+    path('', include('social_django.urls', namespace='social')),
     path('admin/', admin.site.urls),
 ]
 

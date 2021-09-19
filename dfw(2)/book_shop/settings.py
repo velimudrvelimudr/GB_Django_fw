@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainapp',
+    'admin_app',
     'auth_app',
     'userlibrapp',
-    'admin_app',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -148,8 +149,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Настройки авторизации
+
 AUTH_USER_MODEL = 'auth_app.BookUser'
 LOGIN_URL = '/auth/login/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2',
+    )
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = env('VK_ID')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = env('VK_KEY')
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 # Настройки E-Mail
 
