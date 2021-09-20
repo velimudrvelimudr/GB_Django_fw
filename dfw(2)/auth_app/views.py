@@ -1,12 +1,13 @@
 from django.shortcuts import render, HttpResponseRedirect
-from auth_app.forms import BookLoginUserForm, BookUserEditForm, BookUserRegisterForm
+from auth_app.forms import BookLoginUserForm, BookUserEditForm, BookUserRegisterForm, EditProfileForm
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from userlibrapp.models import PersonLib
 from django.core.mail import send_mail
 from django.conf import settings
-from auth_app.models import BookUser
+from auth_app.models import BookUser, BookUserProfile
+from django.db import transaction
 
 # Create your views here.
 
@@ -51,6 +52,7 @@ def profile(request):
     return render(request, 'auth_app/profile_view.html', context=context)
 
 
+@transaction.atomic
 @login_required
 def edit(request):
     """ Редактирование профиля пользователя.  """
@@ -59,15 +61,18 @@ def edit(request):
 
     if request.method == 'POST':
         edit_form = BookUserEditForm(request.POST, request.FILES, instance=request.user)
-        if edit_form.is_valid():
-            edit_form.save()
+        profile_form = EditProfileForm(request.POST, instance=request.user.bookuserprofile)
+        if edit_form.is_valid() and profile_form.is_valid():
+            edit_form.save()    
             return HttpResponseRedirect(reverse('auth:profile'))
     else:
         edit_form = BookUserEditForm(instance=request.user)
+        profile_form = EditProfileForm(instance=request.user.bookuserprofile)
 
     context = {
         'title':title,
         'form': edit_form,
+        'profile_form':profile_form,
         'id_view':'edit',
     }
 

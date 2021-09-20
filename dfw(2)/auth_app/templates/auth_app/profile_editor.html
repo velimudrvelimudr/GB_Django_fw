@@ -17,6 +17,7 @@
 " method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+    {{ profile_form.as_p }}
     <input type="submit" 
     {% if id_view == 'edit' %}
         value="Сохранить"

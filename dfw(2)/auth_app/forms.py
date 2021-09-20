@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 from django.db.models import fields
-from .models import BookUser
+from .models import BookUser, BookUserProfile
 from auth_app import models
 import random, hashlib
 
@@ -27,6 +27,12 @@ class BookUserEditForm(UserChangeForm):
             field.help_text = ''
             if field_name == 'password':
                 field.widget = forms.HiddenInput()
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = BookUserProfile
+        fields = ('tags', 'aboutme', 'gender') # '__all__'
 
 
 class BookUserRegisterForm(UserCreationForm):

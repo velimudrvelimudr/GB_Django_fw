@@ -13,6 +13,11 @@
     <li><strong>Фамилия:</strong> {{ user.last_name|default:'Не задан' }}</li>
     <li><strong>Возраст:</strong> {{ user.age|default:'Не задан' }}</li>
     <li><img src="{{ user.avatar }}" alt="Аватарка"></li>
+    <li>
+        <strong>Теги: </strong>{{ user.bookuserprofile.tags|default:"Не задан" }}
+    </li>
+    <li><strong>Обо мне: </strong>{{ user.bookuserprofile.aboutme|default:'Не задан' }}</li>
+    <li><strong>Пол: </strong>{{ user.bookuserprofile.gender|default:'не задан' }}</li>
 </ul>
 <p><a href="{% url 'auth:edit' %}">Изменить.</a></p>
 {% endblock %}
