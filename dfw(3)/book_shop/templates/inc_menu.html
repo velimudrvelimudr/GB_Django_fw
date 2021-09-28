@@ -3,13 +3,15 @@
     <li><a href="{% url 'catalog' %}">Каталог</a></li>
     <li><a href="{% url 'contacts' %}">Контакты</a></li>
     </ul>
+
     <ul>
-        {% if user.is_authenticated %}
         {% if user.is_superuser %}
         <li><a href="{% url 'admin:users' %}">Административный сайт</a></li>
         {% endif %}
+        {% if user.is_authenticated %}
         <li><a href="{% url 'auth:profile' %}">{{ user.first_name|default:user.username }}</a></li>
         <li><a href="{% url 'libr:perslib' %}">Библиотека ({{ user_count }})</a></li>
+        <li><a href="{% url 'downloads:download_list' %}">Загрузки</a></li>
         <li><a href="{% url 'auth:logout' %}">Выйти!</a></li>
         {% else %}
     <li><a href="{% url 'auth:login' %}">Войти</a></li>
