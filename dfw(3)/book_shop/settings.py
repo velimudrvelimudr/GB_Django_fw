@@ -31,8 +31,8 @@ SECRET_KEY = env('SECRET')
 DEBUG = env('DEBUG')
 # DEBUG = False
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'admin_app',
     'auth_app',
     'userlibrapp',
+    'downloads_books',
     'social_django',
 ]
 
