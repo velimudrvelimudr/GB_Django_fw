@@ -22,3 +22,6 @@ KeyError at /complete/vk-oauth2/
 на строке:
 \auth_app\pipeline.py, line 33, in save_user_profile
     data = resp.json()['response'][0] …
+
+    04.10.2021
+    Подготовка сайта для развёртывания.

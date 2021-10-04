@@ -28,11 +28,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
-# DEBUG = False
+# DEBUG = env('DEBUG')
+DEBUG = False
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['194.58.111.15', 'localhost', '*']
+# ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 
@@ -92,8 +92,11 @@ WSGI_APPLICATION = 'book_shop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'books_db',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'books_db',
+        'NAME': 'booklib',
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': 'postgres',
     }
 }
 
