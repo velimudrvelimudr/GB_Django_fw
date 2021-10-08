@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 books.csv
 *.bat
+book_lib/.env.save
+*.json
+book_lib/books_db

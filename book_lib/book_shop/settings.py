@@ -161,6 +161,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'auth_app.BookUser'
 LOGIN_URL = '/auth/login/'
 LOGIN_ERROR_URL = '/'
+LOGIN_REDIRECT_URL='auth/profile'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -189,7 +190,7 @@ SOCIAL_AUTH_PIPELINE = (
 
 # Настройки E-Mail
 
-DOMAIN_NAME = 'http://localhost:8000'
+DOMAIN_NAME = 'http://194.58.111.15/'
 EMAIL_HOST = 'localhost'
 
 # Для отправки в консоль.
