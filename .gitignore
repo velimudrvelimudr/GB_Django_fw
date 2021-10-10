@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 books.csv
 *.bat
+*.json
+*.xml
