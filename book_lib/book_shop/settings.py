@@ -28,8 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env('DEBUG')
-DEBUG = False
+#DEBUG = env('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = ['194.58.111.15', 'localhost', '*']
 # ALLOWED_HOSTS = ['localhost']
@@ -92,11 +92,11 @@ WSGI_APPLICATION = 'book_shop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'books_db',
-        # 'NAME': 'booklib',
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'USER': 'postgres',
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'books_db',
+        'NAME': 'booklib',
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': 'postgres',
     }
 }
 
@@ -161,7 +161,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'auth_app.BookUser'
 LOGIN_URL = '/auth/login/'
 LOGIN_ERROR_URL = '/'
-LOGIN_REDIRECT_URL='auth/profile'
+REDIRECT_URL='auth/profile/'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
